@@ -1,0 +1,125 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardUseCompatPadding="true">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <me.xiaofud.photofall.view.AspectRatioImageView
+
+                android:id="@+id/imageView"
+                android:adjustViewBounds="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </me.xiaofud.photofall.view.AspectRatioImageView>
+
+            <TextView
+                android:id="@+id/info"
+                android:layout_marginLeft="2dp"
+                android:layout_gravity="left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!--============= 交互区域(评论, 点赞) =============-->
+
+            <LinearLayout
+                android:id="@+id/photo_interaction_layout"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!--============= 点赞 =============-->
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_marginRight="20dp"
+                        android:layout_width="wrap_content"
+                        android:background="@android:color/white"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/like_image_view"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/to_like" />
+
+                        <TextView
+                            android:id="@+id/like_count_text_view"
+                            android:layout_marginLeft="2dp"
+                            android:hint=" 200 "
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+                <!--============= 点赞 =============-->
+
+                <!--============= 评论 =============-->
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:background="@android:color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/comment_image_view"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/comment" />
+
+                        <TextView
+                            android:id="@+id/comment_count_text_view"
+                            android:layout_marginLeft="2dp"
+                            android:hint=" 200 "
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            />
+                    </LinearLayout>
+
+                <!--============= 评论 =============-->
+
+                </LinearLayout>
+
+            <!--============= 交互区域(评论, 点赞) ============= -->
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
