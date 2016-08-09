@@ -4,13 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -48,57 +45,58 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.viewHolder> 
         return super.getItemViewType(position);
     }
 
+    private void setAllVisibility(View[] views, int visibility){
+        for (View view: views)
+            view.setVisibility(visibility);
+    }
+
+    private void setAllAnimation(View[] views, float alpha, long duration_ms, int v1, final int v2){
+        for(final View view : views){
+            view.setVisibility(v1);
+            view.animate().alpha(alpha).setDuration(duration_ms).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    view.setVisibility(v2);
+                }
+            });
+        }
+    }
+
     @Override
     public void onBindViewHolder(viewHolder viewHolder, int position) {
         String imageURL = imageURLs.get(position);
         final View view = viewHolder.itemView;
-        final TextView textView = (TextView) view.findViewById(R.id.info);
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+        final TextView textView = (TextView) view.findViewById(R.id.imageTitle);
+        String title = "图片" + (position + 1);
+        textView.setText(title);
 
+        // 设置图片
+        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
         Picasso.with(context)
                 .load(imageURL)
                 .placeholder(placeholder)
                 .into(imageView);
 
-        // 因为view会重用, 所以需要每次先还原为默认情况
-        final LinearLayout layout = (LinearLayout) view.findViewById(R.id.photo_interaction_layout);
-        layout.setVisibility(View.GONE);
-
+//         因为view会重用, 所以需要每次先还原为默认情况
+        final View[] views = new View[]
+                {
+                    view.findViewById(R.id.horDivLine),
+                    view.findViewById(R.id.likeLayout),
+                    view.findViewById(R.id.commentLayout),
+                    view.findViewById(R.id.verDivLine)
+                };
+        setAllVisibility(views, View.GONE);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                int visibility = layout.getVisibility();
-                if (visibility == View.VISIBLE) {
-                    layout.animate().alpha(0.0f).setDuration(240).setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            layout.setVisibility(View.GONE);
-                        }
-                    });
-                }
-                else{
-                    layout.setVisibility(View.INVISIBLE);
-                    layout.animate()
-                            .alpha(1.0f)
-//                            .translationY(layout.getHeight())
-                            .setDuration(140)
-                            .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            layout.setVisibility(View.VISIBLE);
-                        }
-                    });
-
-
-                }
-
+                int visibility = views[0].getVisibility();
+                if (visibility == View.VISIBLE)
+                    setAllAnimation(views, 0.0f, 240, View.VISIBLE, View.GONE);
+                else
+                    setAllAnimation(views, 1.0f, 140, View.INVISIBLE, View.VISIBLE);
             }
         });
-        String title = "图片" + (position + 1);
-        textView.setText(title);
 
     }
 
